@@ -133,6 +133,7 @@
       carouseItems.forEach((item, index) => {
         console.dir(item);
         item.setAttribute('data-interval','1000')
+        console.log(nameArray[index]);
         item.querySelector('img').src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${nameArray[index]}_0.jpg`;
         let name = nameArray[index];
         item.querySelector('h5').innerText = championObject[name].id + '-' + championObject[name].name;
