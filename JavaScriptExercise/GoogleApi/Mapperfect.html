@@ -36,7 +36,7 @@ window.onload =requestJSON();
         function requestJSON() {
             xhr.onload = function () {
                 data = JSON.parse(this.responseText);
-                console.log(data);
+
                 data.forEach((datacatch, index) => {
 
                     let position = [];
@@ -56,20 +56,20 @@ window.onload =requestJSON();
             xhr.send();
         }
 
-        console.log(box)
+      
 
 
 
         function initMap() {
-            const myLatLng = { lat: 34.84555, lng: -111.8035 };
+            const myLatLng = { lat: 25.0324039, lng: 121.519882 };
             
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 4,
+                zoom: 8,
                 center: myLatLng,
             });
 //把box陣列內容foreach出來標記點
             box.forEach((item, index) => {
-                console.log(item);
+                
                 new google.maps.Marker({
                     position: item,
                     map,
