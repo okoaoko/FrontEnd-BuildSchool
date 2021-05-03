@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Marker Accessibility</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style type="text/css">
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        window.onload = requestJSON;
+
+
+        const url = "https://raw.githubusercontent.com/taihochan/JsonData/main/%E5%8F%B0%E7%81%A3%E8%A1%8C%E6%94%BF%E5%9C%B0%E5%8D%80.json";
+        //let ul = document.getElementById('EmployeeList');
+
+        let data = [];
+        let box = [];
+        let i;
+        let objJsonArray;
+        let xhr = new XMLHttpRequest();
+window.onload =requestJSON();
+
+        function requestJSON() {
+            xhr.onload = function () {
+                data = JSON.parse(this.responseText);
+                console.log(data);
+                data.forEach((datacatch, index) => {
+
+                    let position = [];
+                   //轉成物件加數字,才能被map讀取
+                    let i = (` {"lat": ${datacatch.Lat} , "lng": ${datacatch.Lng}}`);
+                    //這是轉成純物件的寫法
+                    //let i = (` {"lat": "${datacatch.Lat}" , "lng": "${datacatch.Lng}"}`);
+                    //用Json.parse把字串i改成物件
+                    var objJsonArray = JSON.parse(i);
+
+                    //用push將物件加入空box陣列
+                    box.push(objJsonArray);
+                })
+
+            }
+            xhr.open('GET', url);
+            xhr.send();
+        }
+
+        console.log(box)
+
+
+
+        function initMap() {
+            const myLatLng = { lat: 34.84555, lng: -111.8035 };
+            
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 4,
+                center: myLatLng,
+            });
+//把box陣列內容foreach出來標記點
+            box.forEach((item, index) => {
+                console.log(item);
+                new google.maps.Marker({
+                    position: item,
+                    map,
+                    title: "Hello World!",
+                });
+
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS2Mha_0HHaKYeF7zC1hgX8HcE_1ZzSRY&callback=initMap&libraries=&v=weekly"
+        async></script>
+</body>
+
+</html>

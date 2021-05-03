@@ -25,43 +25,38 @@
 
         const url = "https://raw.githubusercontent.com/taihochan/JsonData/main/%E5%8F%B0%E7%81%A3%E8%A1%8C%E6%94%BF%E5%9C%B0%E5%8D%80.json";
         //let ul = document.getElementById('EmployeeList');
-        let pl = [];
+
         let data = [];
-
-
-
+        let box = [];
+        let i;
+        let objJsonArray;
         let xhr = new XMLHttpRequest();
 
 
         function requestJSON() {
             xhr.onload = function () {
                 data = JSON.parse(this.responseText);
-
+                console.log(data);
                 data.forEach((datacatch, index) => {
-                    let li = document.createElement('li');
-                    li = {lat:datacatch.Lat,lng:datacatch.Lng};
-                    pl.push(li.innerText);
-                    new google.maps.Marker({
-                    position:li,
-                    map,
-
-                    optimized: false,
-                });
-
+                    
+                    let position = [];
+                    //{ lat: 34.800326, lng: -111.7665047 }, "Bell Rock"
+                    let i = (` {"lat": "${datacatch.Lat}" , "lng": "${datacatch.Lng}"}`);
+                    let j =(datacatch.District)
+                    
+                    var objJsonArray = JSON.parse(i);
+                    
+                    box.push(objJsonArray);
+                    box.push(j)
+                    
                 })
-                //console.log(pl[0]);
-
-
-
 
             }
-
             xhr.open('GET', url);
             xhr.send();
-
         }
 
-
+console.log(box)
 
 
 
@@ -82,22 +77,12 @@
                 [{ lat: 34.823736, lng: -111.8001857 }, "Red Rock Crossing"],
                 [{ lat: 34.800326, lng: -111.7665047 }, "Bell Rock"],
             ];
-console.log(tourStops);
-
-let ooo =[];
-            tourStops.forEach((itemlat, index) => {
-                pl
-                
-            })
-console.log(pl);
-
-
             // Create an info window to share between markers.
             const infoWindow = new google.maps.InfoWindow();
-
-
             // Create the markers.
-            tourStops.forEach(([position, title], i) => {
+            box.forEach(([position, title], i) => {
+                console.log(position)
+                console.log(title)
                 const marker = new google.maps.Marker({
                     position,
                     map,
@@ -112,6 +97,8 @@ console.log(pl);
                     infoWindow.open(marker.getMap(), marker);
                 });
             });
+
+
         }
     </script>
 </head>
